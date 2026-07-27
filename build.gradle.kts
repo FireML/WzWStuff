@@ -1,5 +1,9 @@
+import net.minecrell.pluginyml.paper.PaperPluginDescription
+
 plugins {
-    id("java-library")
+    `java-library`
+    alias(libs.plugins.shadow)
+    alias(libs.plugins.plugin.yml)
 }
 
 repositories {
@@ -9,19 +13,42 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:26.2.build.+")
     compileOnly("uk.firedev:DaisyLib:3.1-SNAPSHOT")
 }
 
-java {
-    toolchain.languageVersion = JavaLanguageVersion.of(25)
+group = "uk.firedev"
+version = project.property("project-version") as String
+java.sourceCompatibility = JavaVersion.VERSION_25
+
+paper {
+    name = project.name
+    version = project.version.toString()
+    main = "uk.firedev.wzwstuff.WzWStuff"
+    apiVersion = "26.2"
+    author = "FireML"
+
+    serverDependencies {
+        register("DaisyLib") {
+            required = true
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
+    }
 }
 
 tasks {
-    processResources {
-        val props = mapOf("version" to version)
-        filesMatching("paper-plugin.yml") {
-            expand(props)
-        }
+    build {
+        dependsOn(shadowJar)
+    }
+    shadowJar {
+        archiveBaseName.set(project.name)
+        archiveVersion.set(project.version.toString())
+        archiveClassifier.set("")
+    }
+    withType<JavaCompile> {
+        options.encoding = "UTF-8"
+    }
+    generatePaperPluginDescription {
+        useGoogleMavenCentralProxy()
     }
 }
