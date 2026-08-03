@@ -16,6 +16,14 @@ public class VerifyCommand {
                 VerificationManager.getInstance().startVerification(player);
                 return 1;
             })
+            .then(
+                Commands.literal("unlink")
+                    .executes(ctx -> {
+                        Player player = CommandUtils.requirePlayer(ctx);
+                        VerificationManager.getInstance().unlink(player);
+                        return 1;
+                    })
+            )
             .build();
     }
 
