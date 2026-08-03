@@ -2,10 +2,7 @@ package uk.firedev.wzwstuff.config;
 
 import net.kyori.adventure.text.Component;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
-
-import java.util.Optional;
 
 import static uk.firedev.daisylib.messages.message.ComponentMessage.componentMessage;
 

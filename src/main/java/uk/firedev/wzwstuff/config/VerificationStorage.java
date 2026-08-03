@@ -1,7 +1,5 @@
 package uk.firedev.wzwstuff.config;
 
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.config.ConfigBase;

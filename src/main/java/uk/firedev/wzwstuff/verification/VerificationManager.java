@@ -55,6 +55,7 @@ public class VerificationManager {
         if (player == null) {
             return MessageConfig.get().getVerifyMustBeOnServer();
         }
+        addVerifyPerks(player);
         VerificationStorage.get().addVerification(uuid, user.getIdLong());
         MessageConfig.get().getVerificationVerified().send(player);
         logVerification(user.getAsMention(), player);
@@ -79,12 +80,12 @@ public class VerificationManager {
         UUID uuid = player.getUniqueId();
         // Already has a code.
         if (verificationCache.containsValue(uuid)) {
-            sendMessage(getExistingCode(uuid), player);
+            sendStartMessage(getExistingCode(uuid), player);
             return;
         }
         int code = generateCode();
         verificationCache.put(code, uuid);
-        sendMessage(code, player);
+        sendStartMessage(code, player);
     }
 
     public void unlink(@NonNull Player player) {
@@ -98,6 +99,7 @@ public class VerificationManager {
             WzWStuff.getInstance().getMainConfig().getLogChannel(),
             MessageConfig.get().getLogUnverified(":x:", player.getName())
         );
+        removeVerifyPerks(player);
     }
 
     public boolean isVerified(@NonNull Player player) {
@@ -124,9 +126,15 @@ public class VerificationManager {
         return code;
     }
 
+    // Actions
+
+    private void addVerifyPerks(@NonNull Player player) {}
+
+    private void removeVerifyPerks(@NonNull Player player) {}
+
     // Message
 
-    private void sendMessage(int code, @NonNull Player player) {
+    private void sendStartMessage(int code, @NonNull Player player) {
         MessageConfig.get().getVerificationCodeSent(displayCode(code)).send(player);
     }
 
