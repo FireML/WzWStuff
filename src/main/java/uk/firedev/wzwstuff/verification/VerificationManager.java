@@ -11,8 +11,8 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.jspecify.annotations.NonNull;
-import uk.firedev.wzwstuff.Messages;
 import uk.firedev.wzwstuff.WzWStuff;
+import uk.firedev.wzwstuff.config.MessageConfig;
 import uk.firedev.wzwstuff.config.VerificationStorage;
 import uk.firedev.wzwstuff.discord.DiscordBot;
 
@@ -57,7 +57,7 @@ public class VerificationManager {
             return "You must be on the server to verify.";
         }
         VerificationStorage.get().addVerification(uuid, user.getIdLong());
-        Messages.VERIFICATION_VERIFIED.get().send(player);
+        MessageConfig.get().getVerificationVerified().send(player);
         logVerification(user.getAsMention(), player);
         return "Successfully verified for " + player.getName();
     }
@@ -78,7 +78,7 @@ public class VerificationManager {
     public void startVerification(@NonNull Player player) {
         // Already verified.
         if (isVerified(player)) {
-            Messages.VERIFICATION_ALREADY_VERIFIED.get().send(player);
+            MessageConfig.get().getVerificationAlreadyVerified().send(player);
             return;
         }
         UUID uuid = player.getUniqueId();
@@ -94,11 +94,11 @@ public class VerificationManager {
 
     public void unlink(@NonNull Player player) {
         if (!isVerified(player)) {
-            Messages.VERIFICATION_NOT_VERIFIED.get().send(player);
+            MessageConfig.get().getVerificationNotVerified().send(player);
             return;
         }
         VerificationStorage.get().removeVerification(player.getUniqueId());
-        Messages.VERIFICATION_UNLINKED.get().send(player);
+        MessageConfig.get().getVerificationUnlinked().send(player);
         String logMessage = "**{emoji} {player} is no longer verified.**";
         DiscordBot.getInstance().sendMessage(
             WzWStuff.getInstance().getMainConfig().getLogChannel(),
@@ -135,9 +135,7 @@ public class VerificationManager {
     // Message
 
     private void sendMessage(int code, @NonNull Player player) {
-        Messages.VERIFICATION_CODE_SENT.get()
-            .replace("{code}", displayCode(code))
-            .send(player);
+        MessageConfig.get().getVerificationCodeSent(displayCode(code)).send(player);
     }
 
     private Component displayCode(int code) {
