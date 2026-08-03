@@ -32,13 +32,6 @@ paper {
 
     loader = "uk.firedev.wzwstuff.LibraryLoader"
     generateLibrariesJson = true
-
-    serverDependencies {
-        register("DaisyLib") {
-            required = true
-            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
-        }
-    }
 }
 
 tasks {
