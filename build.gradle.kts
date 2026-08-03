@@ -14,8 +14,8 @@ repositories {
 
 dependencies {
     compileOnly(libs.paper.api)
-    compileOnly(libs.daisylib)
 
+    paperLibrary(libs.daisylib)
     paperLibrary(libs.jda)
 }
 

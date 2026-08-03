@@ -23,7 +23,7 @@ public class VerificationDiscordListener extends ListenerAdapter {
             return;
         }
         Guild guild = event.getGuild();
-        long expectedId = WzWStuff.getInstance().getConfig().getLong("discord.guild-id");
+        long expectedId = WzWStuff.getInstance().getMainConfig().getGuildId();
         if (guild == null || guild.getIdLong() != expectedId) {
             event.reply("You cannot use this command here.").setEphemeral(true).queue();
             return;

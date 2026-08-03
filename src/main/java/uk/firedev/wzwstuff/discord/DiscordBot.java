@@ -10,10 +10,8 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.wzwstuff.WzWStuff;
 import uk.firedev.wzwstuff.verification.DiscordVerifyCommand;
-import uk.firedev.wzwstuff.verification.VerificationDiscordListener;
 
 import java.util.EnumSet;
 
@@ -29,7 +27,7 @@ public class DiscordBot {
     }
 
     public void load() {
-        Loggers.info(WzWStuff.getInstance().getLogger(), "Loading discord bot.");
+        WzWStuff.getInstance().getLogging().info("Loading discord bot.");
 
         try {
             JDABuilder builder = initializeBuilder();
@@ -52,7 +50,7 @@ public class DiscordBot {
 
     protected JDABuilder initializeBuilder() {
         return JDABuilder.createLight(
-            WzWStuff.getInstance().getConfig().getString("discord.bot-token"),
+            WzWStuff.getInstance().getMainConfig().getDiscordToken(),
             EnumSet.allOf(GatewayIntent.class)
         );
     }
@@ -65,7 +63,7 @@ public class DiscordBot {
         try {
             this.bot.awaitReady();
         } catch (InterruptedException exception) {
-            Loggers.error(WzWStuff.getInstance().getLogger(), "Waiting for bot to load was interrupted!", exception);
+            WzWStuff.getInstance().getLogging().error("Waiting for bot to load was interrupted!", exception);
         }
     }
 

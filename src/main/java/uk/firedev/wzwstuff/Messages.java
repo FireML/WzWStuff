@@ -1,11 +1,11 @@
 package uk.firedev.wzwstuff;
 
 import org.jspecify.annotations.NonNull;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 
 import java.util.function.Supplier;
 
-import static uk.firedev.daisylib.libs.messagelib.message.ComponentMessage.componentMessage;
+import static uk.firedev.daisylib.messages.message.ComponentMessage.componentMessage;
 
 /**
  * Hardcoded messages because i'm lazy
@@ -27,13 +27,13 @@ public enum Messages {
         () -> componentMessage("<aqua>[Verification] <white>You are no longer verified.")
     );
 
-    private final Supplier<ComponentMessage> messageSupplier;
+    private final Supplier<ComponentSingleMessage> messageSupplier;
 
-    Messages(@NonNull Supplier<@NonNull ComponentMessage> messageSupplier) {
+    Messages(@NonNull Supplier<@NonNull ComponentSingleMessage> messageSupplier) {
         this.messageSupplier = messageSupplier;
     }
 
-    public @NonNull ComponentMessage get() {
+    public @NonNull ComponentSingleMessage get() {
         return messageSupplier.get();
     }
 

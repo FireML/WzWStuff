@@ -59,7 +59,7 @@ public class VerificationManager {
         String emojiStr = emoji == null ? "" : emoji.getFormatted() + " ";
         String logMessage = "**{emoji} {mention} successfully verified for {player}**";
         DiscordBot.getInstance().sendMessage(
-            WzWStuff.getInstance().getConfig().getLong("discord.log-channel"),
+            WzWStuff.getInstance().getMainConfig().getLogChannel(),
             logMessage
                 .replace("{emoji}", emojiStr)
                 .replace("{mention}", userMention)
@@ -93,7 +93,7 @@ public class VerificationManager {
         Messages.VERIFICATION_UNLINKED.get().send(player);
         String logMessage = "**{emoji} {player} is no longer verified.**";
         DiscordBot.getInstance().sendMessage(
-            WzWStuff.getInstance().getConfig().getLong("discord.log-channel"),
+            WzWStuff.getInstance().getMainConfig().getLogChannel(),
             logMessage
                 .replace("{emoji}", ":x:")
                 .replace("{player}", player.getName())
