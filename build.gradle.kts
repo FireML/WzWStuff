@@ -13,8 +13,10 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:26.2.build.+")
-    compileOnly("uk.firedev:DaisyLib:3.1-SNAPSHOT")
+    compileOnly(libs.paper.api)
+    compileOnly(libs.daisylib)
+
+    paperLibrary(libs.jda)
 }
 
 group = "uk.firedev"
@@ -27,6 +29,9 @@ paper {
     main = "uk.firedev.wzwstuff.WzWStuff"
     apiVersion = "26.2"
     author = "FireML"
+
+    loader = "uk.firedev.wzwstuff.LibraryLoader"
+    generateLibrariesJson = true
 
     serverDependencies {
         register("DaisyLib") {

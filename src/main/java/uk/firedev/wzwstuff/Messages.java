@@ -1,0 +1,34 @@
+package uk.firedev.wzwstuff;
+
+import org.jspecify.annotations.NonNull;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+
+import java.util.function.Supplier;
+
+import static uk.firedev.daisylib.libs.messagelib.message.ComponentMessage.componentMessage;
+
+/**
+ * Hardcoded messages because i'm lazy
+ */
+public enum Messages {
+    VERIFICATION_ALREADY_VERIFIED(
+        () -> componentMessage("<aqua>[Verification] <white>You are already verified.")
+    ),
+    VERIFICATION_CODE_SENT(
+        () -> componentMessage("<aqua>[Verification] <white>Verification started. Type /mcverify on discord and paste this code: {code}")
+    ),
+    VERIFICATION_VERIFIED(
+        () -> componentMessage("<aqua>[Verification] <white>You have been verified.")
+    );
+
+    private final Supplier<ComponentMessage> messageSupplier;
+
+    Messages(@NonNull Supplier<@NonNull ComponentMessage> messageSupplier) {
+        this.messageSupplier = messageSupplier;
+    }
+
+    public @NonNull ComponentMessage get() {
+        return messageSupplier.get();
+    }
+
+}

@@ -1,8 +1,12 @@
 package uk.firedev.wzwstuff;
 
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
+import uk.firedev.wzwstuff.command.VerifyCommand;
+import uk.firedev.wzwstuff.discord.DiscordBot;
 import uk.firedev.wzwstuff.listener.FirstJoinItems;
+import uk.firedev.wzwstuff.verification.VerificationDiscordListener;
 
 public final class WzWStuff extends JavaPlugin {
 
@@ -15,7 +19,7 @@ public final class WzWStuff extends JavaPlugin {
         INSTANCE = this;
     }
 
-    public static @NotNull WzWStuff getInstance() {
+    public static @NonNull WzWStuff getInstance() {
         if (INSTANCE == null) {
             throw new IllegalStateException(WzWStuff.class.getSimpleName() + " has not been assigned!");
         }
@@ -24,7 +28,24 @@ public final class WzWStuff extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
+        reloadConfig();
+
+        registerCommands();
+        DiscordBot.getInstance().load();
+        registerListeners();
+    }
+
+    private void registerListeners() {
         getServer().getPluginManager().registerEvents(new FirstJoinItems(), this);
+        // Verification
+        DiscordBot.getInstance().getBot().addEventListener(VerificationDiscordListener.getInstance());
+    }
+
+    private void registerCommands() {
+        getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
+            commands.registrar().register(VerifyCommand.get());
+        });
     }
 
 }
