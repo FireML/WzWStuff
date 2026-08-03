@@ -2,7 +2,10 @@ package uk.firedev.wzwstuff.config;
 
 import net.kyori.adventure.text.Component;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
+
+import java.util.Optional;
 
 import static uk.firedev.daisylib.messages.message.ComponentMessage.componentMessage;
 
@@ -37,6 +40,37 @@ public class MessageConfig {
 
     public @NonNull ComponentSingleMessage getVerificationUnlinked() {
         return componentMessage("<aqua>[Verification] <white>You are no longer verified.");
+    }
+
+    public @NonNull String getLogVerified(@NonNull String userMention, @NonNull String emojiStr, @NonNull String playerName) {
+        return "**{emoji} {mention} successfully verified for {player}**"
+            .replace("{emoji}", emojiStr)
+            .replace("{mention}", userMention)
+            .replace("{player}", playerName);
+    }
+
+    public @NonNull String getLogUnverified(@NonNull String emojiStr, @NonNull String playerName) {
+        return "**{emoji} {player} is no longer verified.**"
+            .replace("{emoji}", emojiStr)
+            .replace("{player}", playerName);
+    }
+
+    public @NonNull String getVerifyAlreadyLinked(@NonNull String playerName) {
+        return "Cannot verify. You are already linked to {player}"
+            .replace("{player}", playerName);
+    }
+
+    public @NonNull String getInvalidVerificationCode() {
+        return "Invalid verification code.";
+    }
+
+    public @NonNull String getVerifyMustBeOnServer() {
+        return "You must be on the server to verify.";
+    }
+
+    public @NonNull String getVerifySuccess(@NonNull String playerName) {
+        return "Successfully verified for {player}"
+            .replace("{player}", playerName);
     }
 
 }

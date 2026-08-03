@@ -7,9 +7,7 @@ import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
-import org.bukkit.persistence.PersistentDataType;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.wzwstuff.WzWStuff;
 import uk.firedev.wzwstuff.config.MessageConfig;
@@ -18,6 +16,7 @@ import uk.firedev.wzwstuff.discord.DiscordBot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -43,35 +42,31 @@ public class VerificationManager {
         // Check if the user is already linked to a player.
         UUID linked = VerificationStorage.get().getLinkedPlayer(user.getIdLong());
         if (linked != null) {
-            String name = Bukkit.getOfflinePlayer(linked).getName();
-            return "Cannot verify. You are already linked to " + name;
+            String name = Optional.ofNullable(Bukkit.getOfflinePlayer(linked).getName()).orElse("N/A");
+            return MessageConfig.get().getVerifyAlreadyLinked(name);
         }
 
         UUID uuid = verificationCache.remove(code);
         // Verification code is not cached, it is invalid.
         if (uuid == null) {
-            return "Invalid verification code.";
+            return MessageConfig.get().getInvalidVerificationCode();
         }
         Player player = Bukkit.getPlayer(uuid);
         if (player == null) {
-            return "You must be on the server to verify.";
+            return MessageConfig.get().getVerifyMustBeOnServer();
         }
         VerificationStorage.get().addVerification(uuid, user.getIdLong());
         MessageConfig.get().getVerificationVerified().send(player);
         logVerification(user.getAsMention(), player);
-        return "Successfully verified for " + player.getName();
+        return MessageConfig.get().getVerifySuccess(player.getName());
     }
 
     private void logVerification(@NonNull String userMention, @NonNull Player player) {
         Emoji emoji = DiscordBot.getInstance().getEmoji(1528099250079142019L);
         String emojiStr = emoji == null ? "" : emoji.getFormatted() + " ";
-        String logMessage = "**{emoji} {mention} successfully verified for {player}**";
         DiscordBot.getInstance().sendMessage(
             WzWStuff.getInstance().getMainConfig().getLogChannel(),
-            logMessage
-                .replace("{emoji}", emojiStr)
-                .replace("{mention}", userMention)
-                .replace("{player}", player.getName())
+            MessageConfig.get().getLogVerified(userMention, emojiStr, player.getName())
         );
     }
 
@@ -99,12 +94,9 @@ public class VerificationManager {
         }
         VerificationStorage.get().removeVerification(player.getUniqueId());
         MessageConfig.get().getVerificationUnlinked().send(player);
-        String logMessage = "**{emoji} {player} is no longer verified.**";
         DiscordBot.getInstance().sendMessage(
             WzWStuff.getInstance().getMainConfig().getLogChannel(),
-            logMessage
-                .replace("{emoji}", ":x:")
-                .replace("{player}", player.getName())
+            MessageConfig.get().getLogUnverified(":x:", player.getName())
         );
     }
 
