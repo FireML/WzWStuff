@@ -32,7 +32,7 @@ public class VerificationDiscordListener extends ListenerAdapter {
         Bukkit.getScheduler().runTask(
             WzWStuff.getInstance(),
             () -> {
-                String message = VerificationManager.getInstance().verify(code);
+                String message = VerificationManager.getInstance().verify(event.getUser().getAsMention(), code);
                 event.reply(message).setEphemeral(true).queue();
             }
         );

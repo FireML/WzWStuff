@@ -14,11 +14,17 @@ public enum Messages {
     VERIFICATION_ALREADY_VERIFIED(
         () -> componentMessage("<aqua>[Verification] <white>You are already verified.")
     ),
+    VERIFICATION_NOT_VERIFIED(
+        () -> componentMessage("<aqua>[Verification] <white>You are not verified.")
+    ),
     VERIFICATION_CODE_SENT(
         () -> componentMessage("<aqua>[Verification] <white>Verification started. Type /mcverify on discord and paste this code: {code}")
     ),
     VERIFICATION_VERIFIED(
         () -> componentMessage("<aqua>[Verification] <white>You have been verified.")
+    ),
+    VERIFICATION_UNLINKED(
+        () -> componentMessage("<aqua>[Verification] <white>You are no longer verified.")
     );
 
     private final Supplier<ComponentMessage> messageSupplier;

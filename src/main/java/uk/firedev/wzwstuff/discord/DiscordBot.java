@@ -2,10 +2,14 @@ package uk.firedev.wzwstuff.discord;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.wzwstuff.WzWStuff;
 import uk.firedev.wzwstuff.verification.DiscordVerifyCommand;
@@ -30,6 +34,7 @@ public class DiscordBot {
         try {
             JDABuilder builder = initializeBuilder();
             builder.setMemberCachePolicy(MemberCachePolicy.ALL);
+            builder.enableCache(CacheFlag.EMOJI);
             this.bot = buildBot(builder);
             awaitBotReady();
             updateCommands();
@@ -68,6 +73,18 @@ public class DiscordBot {
         this.bot.updateCommands()
             .addCommands(DiscordVerifyCommand.get())
             .queue();
+    }
+
+    public @Nullable Emoji getEmoji(long id) {
+        return getBot().getEmojiById(id);
+    }
+
+    public void sendMessage(long channel, @NonNull String message) {
+        TextChannel textChannel = getBot().getTextChannelById(channel);
+        if (textChannel == null) {
+            return;
+        }
+        textChannel.sendMessage(message).queue();
     }
 
 }

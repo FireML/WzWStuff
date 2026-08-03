@@ -1,5 +1,6 @@
 package uk.firedev.wzwstuff.verification;
 
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -11,6 +12,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.wzwstuff.Messages;
 import uk.firedev.wzwstuff.WzWStuff;
+import uk.firedev.wzwstuff.discord.DiscordBot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +38,7 @@ public class VerificationManager {
         return INSTANCE;
     }
 
-    public String verify(int code) {
+    public String verify(@NonNull String userMention, int code) {
         UUID uuid = verificationCache.remove(code);
         // Verification code is not cached, it is invalid.
         if (uuid == null) {
@@ -48,7 +50,21 @@ public class VerificationManager {
         }
         player.getPersistentDataContainer().set(VERIFIED_KEY, PersistentDataType.BOOLEAN, true);
         Messages.VERIFICATION_VERIFIED.get().send(player);
+        logVerification(userMention, player);
         return "Successfully verified for " + player.getName();
+    }
+
+    private void logVerification(@NonNull String userMention, @NonNull Player player) {
+        Emoji emoji = DiscordBot.getInstance().getEmoji(1528099250079142019L);
+        String emojiStr = emoji == null ? "" : emoji.getFormatted() + " ";
+        String logMessage = "**{emoji} {mention} successfully verified for {player}**";
+        DiscordBot.getInstance().sendMessage(
+            WzWStuff.getInstance().getConfig().getLong("discord.log-channel"),
+            logMessage
+                .replace("{emoji}", emojiStr)
+                .replace("{mention}", userMention)
+                .replace("{player}", player.getName())
+        );
     }
 
     public void startVerification(@NonNull Player player) {
@@ -66,6 +82,22 @@ public class VerificationManager {
         int code = generateCode();
         verificationCache.put(code, uuid);
         sendMessage(code, player);
+    }
+
+    public void unlink(@NonNull Player player) {
+        if (!player.getPersistentDataContainer().has(VERIFIED_KEY)) {
+            Messages.VERIFICATION_NOT_VERIFIED.get().send(player);
+            return;
+        }
+        player.getPersistentDataContainer().remove(VERIFIED_KEY);
+        Messages.VERIFICATION_UNLINKED.get().send(player);
+        String logMessage = "**{emoji} {player} is no longer verified.**";
+        DiscordBot.getInstance().sendMessage(
+            WzWStuff.getInstance().getConfig().getLong("discord.log-channel"),
+            logMessage
+                .replace("{emoji}", ":x:")
+                .replace("{player}", player.getName())
+        );
     }
 
     // Codes
