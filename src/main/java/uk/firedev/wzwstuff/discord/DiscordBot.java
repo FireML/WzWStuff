@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.wzwstuff.verification.DiscordVerifyCommand;
 
 import java.util.Collection;
 import java.util.EnumSet;
@@ -52,7 +53,9 @@ public class DiscordBot extends uk.firedev.daisylib.discord.DiscordBot {
 
     @Override
     public @NonNull List<@NonNull CommandData> getCommands() {
-        return List.of();
+        return List.of(
+            DiscordVerifyCommand.get()
+        );
     }
 
     public @Nullable Emoji getEmoji(long id) {
