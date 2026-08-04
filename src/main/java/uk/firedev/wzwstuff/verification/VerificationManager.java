@@ -63,9 +63,9 @@ public class VerificationManager {
     }
 
     private void logVerification(@NonNull String userMention, @NonNull Player player) {
-        Emoji emoji = DiscordBot.getInstance().getEmoji(1528099250079142019L);
+        Emoji emoji = DiscordBot.get().getEmoji(1528099250079142019L);
         String emojiStr = emoji == null ? "" : emoji.getFormatted() + " ";
-        DiscordBot.getInstance().sendMessage(
+        DiscordBot.get().sendMessage(
             WzWStuff.getInstance().getMainConfig().getLogChannel(),
             MessageConfig.get().getLogVerified(userMention, emojiStr, player.getName())
         );
@@ -95,7 +95,7 @@ public class VerificationManager {
         }
         VerificationStorage.get().removeVerification(player.getUniqueId());
         MessageConfig.get().getVerificationUnlinked().send(player);
-        DiscordBot.getInstance().sendMessage(
+        DiscordBot.get().sendMessage(
             WzWStuff.getInstance().getMainConfig().getLogChannel(),
             MessageConfig.get().getLogUnverified(":x:", player.getName())
         );

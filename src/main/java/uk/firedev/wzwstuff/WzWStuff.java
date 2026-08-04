@@ -38,7 +38,7 @@ public final class WzWStuff extends JavaPlugin {
     public void onEnable() {
         DaisyLib.get().init(this);
         registerCommands();
-        DiscordBot.getInstance().load();
+        DiscordBot.get().load(mainConfig.getDiscordToken());
         registerListeners();
     }
 
@@ -53,7 +53,7 @@ public final class WzWStuff extends JavaPlugin {
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new FirstJoinItems(), this);
         // Verification
-        DiscordBot.getInstance().getBot().addEventListener(VerificationDiscordListener.getInstance());
+        DiscordBot.get().getBot().addEventListener(VerificationDiscordListener.getInstance());
     }
 
     private void registerCommands() {
