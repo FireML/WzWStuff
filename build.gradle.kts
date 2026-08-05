@@ -13,8 +13,8 @@ repositories {
 dependencies {
     compileOnly(libs.paper.api)
 
-    paperLibrary(libs.daisylib)
-    paperLibrary(libs.jda)
+    implementation(libs.daisylib)
+    implementation(libs.jda)
 }
 
 group = "uk.firedev"
@@ -40,6 +40,9 @@ tasks {
         archiveBaseName.set(project.name)
         archiveVersion.set(project.version.toString())
         archiveClassifier.set("")
+
+        relocate("uk.firedev.daisylib", "uk.firedev.wzwstuff.libs.daisylib")
+        relocate("net.dv8tion.jda", "uk.firedev.wzwstuff.libs.jda")
     }
     withType<JavaCompile> {
         options.encoding = "UTF-8"

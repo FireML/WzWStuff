@@ -52,8 +52,6 @@ public final class WzWStuff extends JavaPlugin {
 
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new FirstJoinItems(), this);
-        // Verification
-        DiscordBot.get().getBot().addEventListener(VerificationDiscordListener.getInstance());
     }
 
     private void registerCommands() {

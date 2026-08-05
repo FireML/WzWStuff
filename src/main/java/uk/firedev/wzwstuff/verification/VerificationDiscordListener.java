@@ -9,14 +9,6 @@ import uk.firedev.wzwstuff.WzWStuff;
 
 public class VerificationDiscordListener extends ListenerAdapter {
 
-    private static final VerificationDiscordListener instance = new VerificationDiscordListener();
-
-    private VerificationDiscordListener() {}
-
-    public static @NonNull VerificationDiscordListener getInstance() {
-        return instance;
-    }
-
     @Override
     public void onSlashCommandInteraction(@NonNull SlashCommandInteractionEvent event) {
         if (!event.getName().equals("mcverify")) {

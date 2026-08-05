@@ -2,6 +2,7 @@ package uk.firedev.wzwstuff.discord;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
@@ -9,6 +10,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.wzwstuff.verification.DiscordVerifyCommand;
+import uk.firedev.wzwstuff.verification.VerificationDiscordListener;
 
 import java.util.Collection;
 import java.util.EnumSet;
@@ -55,6 +57,13 @@ public class DiscordBot extends uk.firedev.daisylib.discord.DiscordBot {
     public @NonNull List<@NonNull CommandData> getCommands() {
         return List.of(
             DiscordVerifyCommand.get()
+        );
+    }
+
+    @Override
+    public @NonNull Collection<? extends EventListener> getListeners() {
+        return List.of(
+            new VerificationDiscordListener()
         );
     }
 
