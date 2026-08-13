@@ -1,6 +1,7 @@
 package uk.firedev.wzwstuff.config;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.object.ObjectContents;
 import org.bukkit.OfflinePlayer;
 import org.jspecify.annotations.NonNull;
@@ -11,6 +12,7 @@ import uk.firedev.wzwstuff.data.PlayerData;
 import uk.firedev.wzwstuff.economy.BaltopEntry;
 import uk.firedev.wzwstuff.economy.WzWStuffEconomy;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import static uk.firedev.daisylib.messages.message.ComponentMessage.componentMessage;
@@ -155,6 +157,15 @@ public class MessageConfig {
 
     private String formatEconomy(double amount) {
         return WzWStuffEconomy.get().format(amount);
+    }
+
+    public ComponentMessage<?, ?> getGlowRemoved() {
+        return componentMessage("<aqua>[Commands] <white>You are no longer glowing.");
+    }
+
+    public ComponentMessage<?, ?> getGlowSet(@NonNull NamedTextColor color) {
+        return componentMessage("<aqua>[Commands] <white>You are now glowing {color}")
+            .replace("{color}", color.name().toLowerCase(Locale.ROOT));
     }
 
 }

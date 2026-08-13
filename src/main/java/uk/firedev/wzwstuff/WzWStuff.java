@@ -9,6 +9,7 @@ import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.database.exceptions.DatabaseLoadException;
 import uk.firedev.daisylib.external.vault.VaultWrapper;
 import uk.firedev.daisylib.logging.Logging;
+import uk.firedev.wzwstuff.command.GlowCommand;
 import uk.firedev.wzwstuff.command.VerifyCommand;
 import uk.firedev.wzwstuff.command.economy.BalanceCommand;
 import uk.firedev.wzwstuff.command.economy.BaltopCommand;
@@ -90,6 +91,9 @@ public final class WzWStuff extends JavaPlugin {
     private void registerCommands() {
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
             commands.registrar().register(VerifyCommand.get());
+
+            // Glow
+            commands.registrar().register(GlowCommand.get());
 
             // Economy
             commands.registrar().register(BalanceCommand.get());
