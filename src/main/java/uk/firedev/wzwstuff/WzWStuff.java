@@ -6,6 +6,7 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.DaisyLib;
+import uk.firedev.daisylib.database.exceptions.DatabaseLoadException;
 import uk.firedev.daisylib.external.vault.VaultWrapper;
 import uk.firedev.daisylib.logging.Logging;
 import uk.firedev.wzwstuff.command.VerifyCommand;
@@ -46,11 +47,20 @@ public final class WzWStuff extends JavaPlugin {
     @Override
     public void onEnable() {
         DaisyLib.get().init(this);
+        loadDatabase();
         registerCommands();
         DiscordBot.get().load(mainConfig.getDiscordToken());
         registerListeners();
         new Placeholders().register();
         loadEconomy();
+    }
+
+    private void loadDatabase() {
+        try {
+            database.load();
+        } catch (DatabaseLoadException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     private void loadEconomy() {

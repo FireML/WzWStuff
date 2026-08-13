@@ -42,17 +42,17 @@ public class WzWStuffEconomy extends SimpleEconomy {
     public String format(double amount) {
         int amountInt = (int) amount;
         String name = amount == 1 ? currencyNameSingular() : currencyNamePlural();
-        return amountInt + name;
+        return amountInt + " " + name;
     }
 
     @Override
     public String currencyNamePlural() {
-        return "Claim Blocks"; // TODO update when we decide.
+        return "Currencies"; // TODO update when we decide.
     }
 
     @Override
     public String currencyNameSingular() {
-        return "Claim Block"; // TODO update when we decide.
+        return "Currency"; // TODO update when we decide.
     }
 
     @Override
