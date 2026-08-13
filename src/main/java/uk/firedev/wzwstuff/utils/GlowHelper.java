@@ -44,7 +44,6 @@ public class GlowHelper {
     }
 
     public static void enableGlow(@NonNull Player player, @NonNull NamedTextColor color) {
-        disableGlow(player);
         Team team = loadedTeams.get(color);
         team.addPlayer(player);
     }
