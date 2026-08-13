@@ -1,6 +1,7 @@
 package uk.firedev.wzwstuff;
 
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.DaisyLib;
@@ -9,6 +10,7 @@ import uk.firedev.wzwstuff.command.VerifyCommand;
 import uk.firedev.wzwstuff.config.MainConfig;
 import uk.firedev.wzwstuff.discord.DiscordBot;
 import uk.firedev.wzwstuff.listener.FirstJoinItems;
+import uk.firedev.wzwstuff.placeholder.Placeholders;
 import uk.firedev.wzwstuff.verification.VerificationDiscordListener;
 
 public final class WzWStuff extends JavaPlugin {
@@ -40,6 +42,7 @@ public final class WzWStuff extends JavaPlugin {
         registerCommands();
         DiscordBot.get().load(mainConfig.getDiscordToken());
         registerListeners();
+        new Placeholders().register();
     }
 
     public @NonNull MainConfig getMainConfig() {

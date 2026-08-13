@@ -1,3 +1,5 @@
+import net.minecrell.pluginyml.paper.PaperPluginDescription
+
 plugins {
     `java-library`
     alias(libs.plugins.shadow)
@@ -8,10 +10,16 @@ repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.codemc.io/repository/FireML/")
+    maven("https://repo.helpch.at/releases/")
+
+    // Should always be last because it's dumb.
+    maven("https://jitpack.io")
 }
 
 dependencies {
     compileOnly(libs.paper.api)
+    compileOnly(libs.griefprevention)
+    compileOnly(libs.placeholderapi)
 
     implementation(libs.daisylib)
     implementation(libs.jda)
@@ -30,6 +38,17 @@ paper {
 
     loader = "uk.firedev.wzwstuff.LibraryLoader"
     generateLibrariesJson = true
+
+    serverDependencies {
+        register("GriefPrevention") {
+            required = true
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
+        register("PlaceholderAPI") {
+            required = true
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
+    }
 }
 
 tasks {
