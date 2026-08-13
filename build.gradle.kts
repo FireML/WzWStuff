@@ -20,6 +20,7 @@ dependencies {
     compileOnly(libs.paper.api)
     compileOnly(libs.griefprevention)
     compileOnly(libs.placeholderapi)
+    compileOnly(libs.vault)
 
     implementation(libs.daisylib)
     implementation(libs.jda)
@@ -40,6 +41,10 @@ paper {
     generateLibrariesJson = true
 
     serverDependencies {
+        register("Vault") {
+            required = true
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
         register("GriefPrevention") {
             required = true
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE

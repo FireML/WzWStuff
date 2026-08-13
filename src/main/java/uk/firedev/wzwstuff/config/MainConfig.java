@@ -23,4 +23,12 @@ public class MainConfig extends BasicConfig {
         return getConfig().getLong("discord.log-channel");
     }
 
+    public long getDatabaseSaveInterval() {
+        return getConfig().getLong("database.save-interval", 300);
+    }
+
+    public long getDatabaseCacheDuration() {
+        return getConfig().getLong("database.cache-duration", 20);
+    }
+
 }

@@ -2,3 +2,9 @@ discord:
   bot-token: []
   guild-id: []
   log-channel: []
+
+database:
+  # How often to save data to the database (in seconds).
+  save-interval: 300
+  # How long to store inactive data before unloading it (in seconds).
+  cache-duration: 20
